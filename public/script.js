@@ -44,10 +44,15 @@ navigator.mediaDevices
     });
 
     socket.on('clear-grid', () => {
-      videoGrid.removeChild(videoGrid.firstElementChild);
+      setTimeout(function () {
+        videoGrid.removeChild(videoGrid.firstElementChild);
+      }, 100);
+
     });
     socket.on('disconnect', () => {
-      socket.broadcast.emit('clear-grid');
+      setTimeout(function () {
+        socket.broadcast.emit('clear-grid');
+      }, 100)
     });
 
 
