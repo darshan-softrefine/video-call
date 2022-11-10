@@ -3,6 +3,7 @@ const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
 myVideo.muted = true;
+const peers = {};
 
 var peer = new Peer(undefined, {
   path: "/peerjs",
@@ -23,7 +24,7 @@ navigator.mediaDevices
     peer.on("call", (call) => {
       call.answer(stream);
       const video = document.createElement("video");
-      /* console.log("video", video); */
+      / console.log("video", video); /
       call.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream);
       });
@@ -33,6 +34,13 @@ navigator.mediaDevices
       setTimeout(function () {
         connectToNewUser(userId, stream);
       }, 1000);
+    });
+    socket.on("user-disconnected", (userId) => {
+      //     console.log("Disconnect user")
+      //Closing the connection
+      //Call.close()
+
+      if (peers[userId]) peers[userId].close();
     });
     let text = $("input");
 
@@ -62,8 +70,8 @@ const connectToNewUser = (userId, stream) => {
   call.on("stream", (userVideoStream) => {
     addVideoStream(video, userVideoStream);
   });
-
-  call.on('close', () => {
+  peers[userId] = call;
+  call.on("close", () => {
     videoGrid.remove(video);
     video.remove();
   });
@@ -112,7 +120,7 @@ const setUnmuteButton = () => {
 
 //Stop our video
 const playStop = () => {
-  /* console.log("object"); */
+  / console.log("object"); /
   let enabled = myVideoStream.getVideoTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getVideoTracks()[0].enabled = false;
@@ -147,6 +155,7 @@ const setPlayVideo = () => {
 
 //display room url
 var roomUrl = window.location.href;
+peers[userId] = call;
 const html = `<h6>Room id: <span>${roomUrl}</span></h6>`;
 document.querySelector(".room_url").innerHTML = html;
 
