@@ -42,6 +42,15 @@ navigator.mediaDevices
 
       if (peers[userId]) peers[userId].close();
     });
+
+    socket.on('clear-grid', () => {
+      videoGrid.removeChild(videoGrid.firstElementChild);
+    });
+    socket.on('disconnect', () => {
+      socket.broadcast.emit('clear-grid');
+    });
+
+
     let text = $("input");
 
     $("html").keydown((e) => {
@@ -50,6 +59,7 @@ navigator.mediaDevices
         text.val("");
       }
     });
+
 
     socket.on("createMessage", (message) => {
       $(".messages").append(
