@@ -38,9 +38,7 @@ navigator.mediaDevices
     socket.on("user-disconnected", (userId) => {
 
 
-      if (peers[userId]) peers[userId].close();
-      document.getElementById(userId).remove();
-      console.log("disconnected ru n")
+      console.log("user-dis")
     });
 
     // socket.on('clear-grid', () => {
@@ -49,11 +47,13 @@ navigator.mediaDevices
     //   }, 100);
 
     // });
-    // socket.on('disconnect', () => {
-    //   setTimeout(function () {
-    //     socket.broadcast.emit('clear-grid');
-    //   }, 100)
-    // });
+    socket.on('disconnect', () => {
+      setTimeout(function () {
+        if (peers[userId]) peers[userId].close();
+        document.getElementById(userId).remove();
+        console.log("disconnected ru n")
+      }, 100)
+    });
 
 
     let text = $("input");
