@@ -46,7 +46,7 @@ navigator.mediaDevices
     //   }, 100);
 
     // });
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (userId) => {
       if (peers[userId]) peers[userId].close();
       document.getElementById(userId).remove();
       console.log("disconnected ru n")
