@@ -51,6 +51,9 @@ navigator.mediaDevices
       document.getElementById(userId).remove();
       console.log("disconnected ru n")
     });
+    socket.on('reconnect', () => {
+      console.log('reconnect');
+    })
 
 
     let text = $("input");
