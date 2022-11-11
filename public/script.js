@@ -36,12 +36,11 @@ navigator.mediaDevices
       }, 1000);
     });
     socket.on("user-disconnected", (userId) => {
-      //     console.log("Disconnect user")
-      //Closing the connection
-      //Call.close()
+
 
       if (peers[userId]) peers[userId].close();
       document.getElementById(userId).remove();
+      console.log("disconnected ru n")
     });
 
     // socket.on('clear-grid', () => {
@@ -84,6 +83,7 @@ const connectToNewUser = (userId, stream) => {
 
   const video = document.createElement("video");
   video.setAttribute("id", userId);
+  console.log(userId);
   call.on("stream", (userVideoStream) => {
     addVideoStream(video, userVideoStream);
   });
@@ -172,7 +172,6 @@ const setPlayVideo = () => {
 
 //display room url
 var roomUrl = window.location.href;
-peers[userId] = call;
 const html = `<h6>Room id: <span>${roomUrl}</span></h6>`;
 document.querySelector(".room_url").innerHTML = html;
 
