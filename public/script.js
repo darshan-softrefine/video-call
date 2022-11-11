@@ -31,10 +31,9 @@ navigator.mediaDevices
     });
 
     socket.on("user-connected", (userId) => {
-      setTimeout(function () {
-        connectToNewUser(userId, stream);
-      }, 1000);
+      connectToNewUser(userId, stream);
     });
+
     socket.on("user-disconnected", (userId) => {
 
 
@@ -48,11 +47,9 @@ navigator.mediaDevices
 
     // });
     socket.on('disconnect', () => {
-      setTimeout(function () {
-        if (peers[userId]) peers[userId].close();
-        document.getElementById(userId).remove();
-        console.log("disconnected ru n")
-      }, 100)
+      if (peers[userId]) peers[userId].close();
+      document.getElementById(userId).remove();
+      console.log("disconnected ru n")
     });
 
 
