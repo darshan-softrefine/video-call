@@ -41,19 +41,20 @@ navigator.mediaDevices
       //Call.close()
 
       if (peers[userId]) peers[userId].close();
+      document.getElementById(userId).remove();
     });
 
-    socket.on('clear-grid', () => {
-      setTimeout(function () {
-        videoGrid.removeChild(videoGrid.firstElementChild);
-      }, 100);
+    // socket.on('clear-grid', () => {
+    //   setTimeout(function () {
+    //     videoGrid.removeChild(videoGrid.firstElementChild);
+    //   }, 100);
 
-    });
-    socket.on('disconnect', () => {
-      setTimeout(function () {
-        socket.broadcast.emit('clear-grid');
-      }, 100)
-    });
+    // });
+    // socket.on('disconnect', () => {
+    //   setTimeout(function () {
+    //     socket.broadcast.emit('clear-grid');
+    //   }, 100)
+    // });
 
 
     let text = $("input");
@@ -82,14 +83,15 @@ const connectToNewUser = (userId, stream) => {
   const call = peer.call(userId, stream);
 
   const video = document.createElement("video");
+  video.setAttribute("id", userId);
   call.on("stream", (userVideoStream) => {
     addVideoStream(video, userVideoStream);
   });
   peers[userId] = call;
-  call.on("close", () => {
-    videoGrid.remove(video);
-    video.remove();
-  });
+  // call.on("close", () => {
+  //   videoGrid.remove(video);
+  //   video.remove();
+  // });
 
 };
 
